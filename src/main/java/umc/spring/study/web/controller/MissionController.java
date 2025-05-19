@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import umc.spring.study.apiPayload.ApiResponse;
 import umc.spring.study.service.MissionService.MissionCommandService;
 import umc.spring.study.web.dto.ChallengeMissionRequest;
+import umc.spring.study.web.dto.MemberMissionResponseDTO;
 import umc.spring.study.web.dto.MissionRequestDTO;
 
 @RestController
@@ -23,8 +25,7 @@ public class MissionController {
     }
 
     @PostMapping("/challenge")
-    public ResponseEntity<?> challengeMission(@RequestBody @Valid ChallengeMissionRequest request) {
-        missionCommandService.challengeMission(request);
-        return ResponseEntity.ok("도전 완료");
+    public ApiResponse<MemberMissionResponseDTO> challengeMission(@RequestBody @Valid ChallengeMissionRequest request) {
+        return ApiResponse.onSuccess(missionCommandService.challengeMission(request));
     }
 }

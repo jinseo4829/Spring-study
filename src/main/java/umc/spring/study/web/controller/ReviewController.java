@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import umc.spring.study.apiPayload.ApiResponse;
 import umc.spring.study.service.ReviewService.ReviewCommandService;
 import umc.spring.study.web.dto.ReviewRequestDTO;
+import umc.spring.study.web.dto.ReviewResponseDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +20,7 @@ public class ReviewController {
     private final ReviewCommandService reviewCommandService;
 
     @PostMapping
-    public ResponseEntity<String> createReview(@RequestBody @Valid ReviewRequestDTO dto) {
-        reviewCommandService.addReview(dto);
-        return ResponseEntity.ok("리뷰 등록 완료");
+    public ApiResponse<ReviewResponseDTO> createReview(@RequestBody @Valid ReviewRequestDTO dto) {
+        return ApiResponse.onSuccess(reviewCommandService.addReview(dto));
     }
 }

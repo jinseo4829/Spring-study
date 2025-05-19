@@ -14,6 +14,7 @@ import umc.spring.study.repository.MemberRepository.MemberRepository;
 import umc.spring.study.repository.ReviewRepository.ReviewRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
 import umc.spring.study.web.dto.ReviewRequestDTO;
+import umc.spring.study.web.dto.ReviewResponseDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class ReviewCommandService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public void addReview(ReviewRequestDTO dto) {
+    public ReviewResponseDTO addReview(ReviewRequestDTO dto) {
         Member member = memberRepository.findById(1L)
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         Store store = storeRepository.findById(dto.getStoreId())
@@ -32,5 +33,6 @@ public class ReviewCommandService {
 
         Review review = ReviewConverter.toReview(dto, member, store);
         reviewRepository.save(review);
+        return ReviewConverter.toReviewResponseDTO(review);
     }
 }

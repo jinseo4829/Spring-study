@@ -16,6 +16,7 @@ import umc.spring.study.repository.MemberRepository.MemberRepository;
 import umc.spring.study.repository.MissionRepository.MissionRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
 import umc.spring.study.web.dto.ChallengeMissionRequest;
+import umc.spring.study.web.dto.MemberMissionResponseDTO;
 import umc.spring.study.web.dto.MissionRequestDTO;
 
 @Service
@@ -41,7 +42,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
     @Override
     @Transactional
-    public void challengeMission(ChallengeMissionRequest request) {
+    public MemberMissionResponseDTO challengeMission(ChallengeMissionRequest request) {
         Member member = memberRepository.findById(DEFAULT_MEMBER_ID)
                 .orElseThrow(() -> new RuntimeException("하드코딩된 회원 없음")); // 실제 운영 시엔 적절한 예외 처리 필요
 
@@ -50,5 +51,6 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
         MemberMission memberMission = MemberMissionConverter.toMemberMission(member, mission);
         memberMissionRepository.save(memberMission);
+        return MemberMissionConverter.toResponseDTO(memberMission);
     }
 }

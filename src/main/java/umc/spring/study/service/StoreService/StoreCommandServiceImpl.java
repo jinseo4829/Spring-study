@@ -10,6 +10,7 @@ import umc.spring.study.domain.Store;
 import umc.spring.study.repository.RegionRepository.RegionRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
 import umc.spring.study.web.dto.StoreRequestDTO;
+import umc.spring.study.web.dto.StoreResponseDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -19,11 +20,11 @@ public class StoreCommandServiceImpl implements StoreCommandService {
     private final RegionRepository regionRepository;
 
     @Override
-    public Store createStore(StoreRequestDTO requestDTO) {
+    public StoreResponseDTO createStore(StoreRequestDTO requestDTO) {
         Region region = regionRepository.findById(requestDTO.getRegionId())
                 .orElseThrow(() -> new StoreHandler(ErrorStatus.REGION_NOT_FOUND));
 
         Store store = StoreConverter.toStore(requestDTO, region);
-        return storeRepository.save(store);
+        return StoreConverter.toStoreResponseDTO(store);
     }
 }
