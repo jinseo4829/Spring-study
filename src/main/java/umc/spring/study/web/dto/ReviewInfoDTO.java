@@ -1,19 +1,15 @@
 package umc.spring.study.web.dto;
 
+
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Builder
-public class ReviewResponseDTO {
-    private Long ReviewId;
-    private String title;
+public class ReviewInfoDTO {
     private String body;
     private Float score;
-    private LocalDate Date;
+    private LocalDateTime createdAt;
 }
-

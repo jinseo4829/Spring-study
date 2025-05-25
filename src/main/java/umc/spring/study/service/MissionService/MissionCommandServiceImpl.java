@@ -1,6 +1,10 @@
 package umc.spring.study.service.MissionService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.study.apiPayload.code.status.ErrorStatus;
@@ -15,9 +19,11 @@ import umc.spring.study.repository.MemberMissionRepository.MemberMissionReposito
 import umc.spring.study.repository.MemberRepository.MemberRepository;
 import umc.spring.study.repository.MissionRepository.MissionRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
-import umc.spring.study.web.dto.ChallengeMissionRequest;
-import umc.spring.study.web.dto.MemberMissionResponseDTO;
-import umc.spring.study.web.dto.MissionRequestDTO;
+import umc.spring.study.web.dto.*;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -52,5 +58,23 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         MemberMission memberMission = MemberMissionConverter.toMemberMission(member, mission);
         memberMissionRepository.save(memberMission);
         return MemberMissionConverter.toResponseDTO(memberMission);
+    }
+
+    @Override
+    public MissionListDTO getStoreMissionList(Long storeId, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("deadline").ascending());
+
+        Page<Mission> missions = missionRepository.findByStoreIdAndDeadlineAfter(
+                storeId, LocalDate.now(), pageable);
+
+        List<MissionPreviewDTO> content = missions.getContent().stream()
+                .map(MissionConverter::toMissionPreviewDTO)
+                .collect(Collectors.toList());
+
+        return MissionListDTO.builder()
+                .missionList(content)
+                .totalPages(missions.getTotalPages())
+                .totalElements(missions.getTotalElements())
+                .build();
     }
 }

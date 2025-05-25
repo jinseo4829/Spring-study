@@ -30,7 +30,10 @@ public enum ErrorStatus implements BaseErrorCode {
     FOOD_CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST, "FOOD4001", "음식 카테고리를 찾을 수 없습니다."),
 
     REGION_NOT_FOUND(HttpStatus.NOT_FOUND, "REGION4001", "해당 지역을 찾을 수 없습니다."),
-    STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "해당 가게를 찾을 수 없습니다.");
+    STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "STORE4001", "해당 가게를 찾을 수 없습니다."),
+    PAGE_LESS_THAN_ONE(HttpStatus.BAD_REQUEST, "PAGE4001", "page 값은 1 이상이어야 합니다."),
+    MEMBER_MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION4001", "진행 중인 미션이 없습니다."),
+    MEMBER_MISSION_ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "MISSION4002", "해당 미션은 이미 완료됐습니다.");
 
 
 

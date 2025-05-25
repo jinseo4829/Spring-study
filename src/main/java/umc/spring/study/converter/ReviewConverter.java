@@ -1,11 +1,16 @@
 package umc.spring.study.converter;
 
+import org.springframework.data.domain.Page;
 import umc.spring.study.domain.Member;
 import umc.spring.study.domain.Mission;
 import umc.spring.study.domain.Review;
 import umc.spring.study.domain.Store;
+import umc.spring.study.web.dto.MyReviewListDTO;
+import umc.spring.study.web.dto.ReviewInfoDTO;
 import umc.spring.study.web.dto.ReviewRequestDTO;
 import umc.spring.study.web.dto.ReviewResponseDTO;
+
+import java.util.stream.Collectors;
 
 public class ReviewConverter {
     public static Review toReview(ReviewRequestDTO dto, Member member, Store store) {
@@ -23,6 +28,22 @@ public class ReviewConverter {
                 .body(review.getBody())
                 .score(review.getScore())
                 //.Date(review.getDate())
+                .build();
+    }
+
+    public static MyReviewListDTO toMyReviewListDTO(Page<Review> reviewPage) {
+        return MyReviewListDTO.builder()
+                .reviews(
+                        reviewPage.getContent().stream()
+                                .map(r -> ReviewInfoDTO.builder()
+                                        .body(r.getBody())
+                                        .score(r.getScore())
+                                        .createdAt(r.getCreatedAt())
+                                        .build()
+                                ).collect(Collectors.toList())
+                )
+                .currentPage(reviewPage.getNumber() + 1)
+                .totalPages(reviewPage.getTotalPages())
                 .build();
     }
 }
