@@ -3,6 +3,9 @@ package umc.spring.study.converter;
 import umc.spring.study.domain.FoodCategory;
 import umc.spring.study.domain.Member;
 import umc.spring.study.domain.enums.Gender;
+import umc.spring.study.domain.enums.MemberStatus;
+import umc.spring.study.domain.enums.Role;
+import umc.spring.study.domain.enums.SocialType;
 import umc.spring.study.domain.mapping.MemberPrefer;
 import umc.spring.study.web.dto.MemberRequestDTO;
 import umc.spring.study.web.dto.MemberResponseDTO;
@@ -32,13 +35,19 @@ public class MemberConverter {
             case 2:
                 gender = Gender.FEMALE;
                 break;
+            case 3:
+                gender = Gender.NONE;
+                break;
         }
 
         return Member.builder()
+                .email(request.getEmail())
+                .password(request.getPassword())
                 .address(request.getAddress())
                 .specAddress(request.getSpecAddress())
                 .gender(gender)
                 .name(request.getName())
+                .role(request.getRole())
                 .memberPreferList(new ArrayList<>())
                 .build();
     }
