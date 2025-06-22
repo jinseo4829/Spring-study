@@ -4,9 +4,11 @@ spring:
     url: jdbc:mysql://localhost:3306/umc8th
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+
   sql:
     init:
       mode: never
+
   jpa:
     properties:
       hibernate:
@@ -22,3 +24,9 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+jwt:
+  token:
+    secret-key: umceightfightingjwttokenauthentication
+    expiration:
+      access: 14400000 # 4시간 (ms 기준)

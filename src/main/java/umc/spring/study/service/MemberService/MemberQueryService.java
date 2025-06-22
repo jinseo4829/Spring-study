@@ -1,4 +1,12 @@
 package umc.spring.study.service.MemberService;
 
-public class MemberQueryService {
+import jakarta.servlet.http.HttpServletRequest;
+import umc.spring.study.domain.Member;
+import umc.spring.study.web.dto.MemberResponseDTO;
+
+import java.util.Optional;
+
+public interface MemberQueryService {
+
+    MemberResponseDTO.MemberInfoDTO getMemberInfo(HttpServletRequest request);
 }
